@@ -36,7 +36,7 @@
      ══════════════════════════════════════════════════════════ */
   const Config = {
     /** Gemini model to use — flash is fastest & cheapest */
-    MODEL: 'gemini-1.5-flash',
+    MODEL: 'gemini-2.5-flash',
 
     /** Max history items to retain per session */
     MAX_HISTORY: 10,
