@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="NutriSense – Your AI-powered dietary consultant. Get smart food substitutions and empathetic health guidance powered by Google Gemini." />
+  <meta name="theme-color" content="#0f1117" />
+
+  <!-- Open Graph / Social -->
+  <meta property="og:title" content="NutriSense – AI Food & Health Assistant" />
+  <meta property="og:description" content="Smart, empathetic dietary guidance powered by Google Gemini AI." />
+  <meta property="og:type" content="website" />
+
+  <title>NutriSense – AI Food & Health Assistant</title>
+
+  <!-- Google Fonts: Inter for clean, accessible typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ── Skip Navigation (Accessibility) ──────────────────────────── -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- ── App Shell ────────────────────────────────────────────────── -->
+  <div class="app-shell" id="app-shell">
+
+    <!-- ── Sidebar ──────────────────────────────────────────────── -->
+    <aside class="sidebar" aria-label="App sidebar and API configuration">
+
+      <!-- Logo -->
+      <div class="logo" aria-hidden="true">
+        <span class="logo-icon">🥗</span>
+        <span class="logo-text">NutriSense</span>
+      </div>
+
+      <!-- Tagline -->
+      <p class="sidebar-tagline">Your empathetic AI dietary consultant</p>
+
+      <hr class="sidebar-divider" aria-hidden="true" />
+
+      <!-- API Key Section -->
+      <section class="api-key-section" aria-labelledby="api-key-heading">
+        <h2 id="api-key-heading" class="section-label">
+          <span aria-hidden="true">🔑</span> Gemini API Key
+        </h2>
+
+        <!-- Security notice — prominent and clear -->
+        <div class="security-badge" role="note" aria-label="Security notice">
+          <span class="security-icon" aria-hidden="true">🛡️</span>
+          <p class="security-text">
+            <strong>Zero-Trust:</strong> Your key is stored in browser memory only and
+            <em>never</em> sent to our server.
+          </p>
+        </div>
+
+        <div class="input-group">
+          <label for="api-key-input" class="visually-hidden">
+            Google Gemini API Key
+          </label>
+          <input
+            type="password"
+            id="api-key-input"
+            class="input input--key"
+            placeholder="Paste your Gemini API key…"
+            autocomplete="off"
+            spellcheck="false"
+            aria-describedby="api-key-hint"
+          />
+          <!-- Toggle visibility button -->
+          <button
+            type="button"
+            id="toggle-key-visibility"
+            class="btn btn--icon"
+            aria-label="Toggle API key visibility"
+            title="Show / hide API key"
+          >
+            <span aria-hidden="true" id="eye-icon">👁️</span>
+          </button>
+        </div>
+
+        <p id="api-key-hint" class="hint-text">
+          Get a free key at
+          <a
+            href="https://aistudio.google.com/app/apikey"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="link"
+          >Google AI Studio ↗</a>
+        </p>
+      </section>
+
+      <hr class="sidebar-divider" aria-hidden="true" />
+
+      <!-- How it works -->
+      <section aria-labelledby="how-it-works-heading">
+        <h2 id="how-it-works-heading" class="section-label">
+          <span aria-hidden="true">💡</span> How It Works
+        </h2>
+        <ol class="how-list" aria-label="Steps to use NutriSense">
+          <li>Enter your Gemini API key above</li>
+          <li>Describe what you ate or are craving</li>
+          <li>Receive smart, empathetic health guidance</li>
+        </ol>
+      </section>
+
+      <!-- Footer -->
+      <footer class="sidebar-footer">
+        <p class="footer-text">
+          Built for <strong>AMD Day 1 Hackathon</strong> ·
+          Powered by <span class="gemini-badge">Gemini 1.5 Flash</span>
+        </p>
+      </footer>
+
+    </aside>
+
+    <!-- ── Main Content ──────────────────────────────────────────── -->
+    <main id="main-content" class="main" aria-labelledby="page-heading">
+
+      <!-- Page Header -->
+      <header class="main-header">
+        <h1 id="page-heading" class="page-title">
+          What did you eat, or what are you craving?
+        </h1>
+        <p class="page-subtitle">
+          Tell me anything — I'll suggest healthier choices without judgement.
+        </p>
+      </header>
+
+      <!-- ── Input Card ──────────────────────────────────────────── -->
+      <section class="card input-card" aria-labelledby="input-section-label">
+        <h2 id="input-section-label" class="visually-hidden">Food input</h2>
+
+        <div class="textarea-wrapper">
+          <label for="food-input" class="input-label">
+            Describe your meal or craving
+          </label>
+          <textarea
+            id="food-input"
+            class="input input--textarea"
+            rows="4"
+            placeholder="e.g. 'I had a large pepperoni pizza and two sodas for lunch…' or 'I'm craving fried chicken and chips'"
+            aria-describedby="food-input-hint"
+            maxlength="1000"
+          ></textarea>
+          <div class="textarea-meta">
+            <span id="food-input-hint" class="hint-text">Max 1,000 characters</span>
+            <span id="char-counter" class="char-counter" aria-live="polite" aria-atomic="true">0 / 1000</span>
+          </div>
+        </div>
+
+        <!-- Quick prompts for UX -->
+        <div class="quick-prompts" role="group" aria-label="Quick prompt examples">
+          <span class="quick-label">Try:</span>
+          <button type="button" class="chip" data-prompt="I just ate a whole bag of chips and felt guilty about it">😔 Guilty snacking</button>
+          <button type="button" class="chip" data-prompt="I'm craving something sweet after dinner, what are healthier dessert options?">🍫 Sweet craving</button>
+          <button type="button" class="chip" data-prompt="I skipped breakfast and had fast food for lunch. What should I eat for dinner?">🍔 Fast food day</button>
+          <button type="button" class="chip" data-prompt="I'm vegetarian and struggling to get enough protein. What foods should I focus on?">🥦 Protein help</button>
+        </div>
+
+        <!-- Submit -->
+        <button
+          type="button"
+          id="analyze-btn"
+          class="btn btn--primary"
+          aria-describedby="analyze-btn-desc"
+        >
+          <span class="btn-text">Analyze My Meal</span>
+          <span class="btn-icon" aria-hidden="true">✨</span>
+        </button>
+        <span id="analyze-btn-desc" class="visually-hidden">
+          Send your food description to the AI for health guidance
+        </span>
+      </section>
+
+      <!-- ── Response Area ───────────────────────────────────────── -->
+      <section
+        id="response-section"
+        class="card response-card"
+        aria-labelledby="response-heading"
+        aria-live="polite"
+        aria-atomic="false"
+        hidden
+      >
+        <div class="response-header">
+          <h2 id="response-heading" class="response-title">
+            <span aria-hidden="true">🥗</span> NutriSense Advice
+          </h2>
+          <button
+            type="button"
+            id="copy-btn"
+            class="btn btn--ghost btn--sm"
+            aria-label="Copy advice to clipboard"
+          >
+            <span aria-hidden="true">📋</span> Copy
+          </button>
+        </div>
+
+        <!-- Loading state -->
+        <div id="loading-indicator" class="loading" role="status" aria-label="Fetching AI response" hidden>
+          <div class="spinner" aria-hidden="true"></div>
+          <p class="loading-text">Consulting your AI dietitian…</p>
+        </div>
+
+        <!-- Error state -->
+        <div
+          id="error-banner"
+          class="error-banner"
+          role="alert"
+          aria-live="assertive"
+          hidden
+        >
+          <span aria-hidden="true">⚠️</span>
+          <p id="error-message" class="error-text"></p>
+        </div>
+
+        <!-- Success response -->
+        <div id="response-content" class="response-content" hidden></div>
+
+      </section>
+
+      <!-- ── History ─────────────────────────────────────────────── -->
+      <section
+        id="history-section"
+        class="card history-card"
+        aria-labelledby="history-heading"
+        hidden
+      >
+        <div class="history-header">
+          <h2 id="history-heading" class="section-label">
+            <span aria-hidden="true">📜</span> Recent Queries
+          </h2>
+          <button
+            type="button"
+            id="clear-history-btn"
+            class="btn btn--ghost btn--sm btn--danger"
+            aria-label="Clear all query history"
+          >
+            Clear
+          </button>
+        </div>
+        <ul id="history-list" class="history-list" aria-label="Query history"></ul>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ── Toast Notification ─────────────────────────────────────── -->
+  <div
+    id="toast"
+    class="toast"
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+    hidden
+  ></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
